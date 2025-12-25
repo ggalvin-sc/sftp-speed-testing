@@ -14,7 +14,7 @@ SFTP_PORT=$(grep "^SFTP_PORT=" .env | cut -d= -f2)
 SFTP_USER=$(grep "^SFTP_USER=" .env | cut -d= -f2)
 SFTP_PASSWORD=$(grep "^SFTP_PASSWORD=" .env | cut -d= -f2 | sed "s/^'//" | sed "s/'$//")
 
-MOUNT_POINT="$HOME/SFTP-Drive"
+MOUNT_POINT="$HOME/casedoxx_server"
 
 echo "Mounting SFTP as local drive..."
 echo "Server: $SFTP_USER@$SFTP_HOST:$SFTP_PORT"
@@ -33,7 +33,7 @@ fi
 
 # Mount the drive
 echo "Mounting..."
-echo "$SFTP_PASSWORD" | sshfs -o password_stdin,allow_other,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 "$SFTP_USER@$SFTP_HOST:$SFTP_PORT/" "$MOUNT_POINT"
+echo "$SFTP_PASSWORD" | sshfs -o password_stdin,allow_other,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 -p "$SFTP_PORT" "$SFTP_USER@$SFTP_HOST:/" "$MOUNT_POINT"
 
 if [ $? -eq 0 ]; then
     echo
